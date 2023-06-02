@@ -23,7 +23,7 @@ class ExpensesResource extends Resource
 {
     protected static ?string $model = Expenses::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     public static function form(Form $form): Form
     {
@@ -35,7 +35,7 @@ class ExpensesResource extends Resource
                                 ->label('Expense categories')
                                 ->relationship('expensesCategory','expense_category')
                                 ->disablePlaceholderSelection()
-                                ->searchable()
+
                                 ->required(),
                     TextInput::make('amount')
                                 ->numeric()

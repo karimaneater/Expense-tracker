@@ -20,7 +20,7 @@ class ExpensesCategoriesResource extends Resource
 {
     protected static ?string $model = ExpensesCategories::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-collection';
+    protected static ?string $navigationIcon = 'heroicon-o-currency-dollar';
 
     public static function form(Form $form): Form
     {
