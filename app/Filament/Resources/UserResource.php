@@ -16,6 +16,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Card;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class UserResource extends Resource
 {
@@ -26,7 +27,6 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
 
-
         return $form
            ->schema([
                 Card::make()->schema([
@@ -35,7 +35,6 @@ class UserResource extends Resource
                                 ->maxlength(255),
                     TextInput::make('email')
                                 ->email()
-                                ->unique()
                                 ->maxlength(255)
                                 ->required(),
                     Select::make('roles')
