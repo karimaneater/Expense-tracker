@@ -32,8 +32,32 @@ class ExpensesChartWidget extends PieChartWidget
 
         $exp_id = Expenses::all()->pluck('expense_category_id');
 
-        $expenses = Expenses::all()->pluck('amount')->toArray();
+        // $expenses = Expenses::all()->pluck('amount')->toArray();
         $label  = ExpensesCategories::all()->whereIn('id', $exp_id)->pluck('expense_category');
+        $expenses = \App\Models\Expenses::query()
+                    ->select('expense_category_id', \DB::raw('SUM(amount) as total_amount'))
+                    ->groupBy('expense_category_id')
+                    ->get()->toArray();
+
+        $datas = [];
+        $labels = [];
+
+
+
+        foreach ($expenses as $key => $expense) {
+            $expense_cat = \App\Models\ExpensesCategories::first()->where('id',$expense['expense_category_id'])->pluck('expense_category')->toArray();
+
+            if(isset($expense_cat[0])){
+                array_push($labels, $expense_cat[0]);
+            };
+
+            if(isset($expense['total_amount'])){
+                array_push($datas, $expense['total_amount']);
+            };
+
+
+
+        }
 
          // Generate random background colors
          $backgroundColor = [];
@@ -45,12 +69,12 @@ class ExpensesChartWidget extends PieChartWidget
 
             return [
 
-                'labels' => $label,
+                'labels' => $labels,
 
                 'datasets' => [
                     [
                         'label' => 'Expenses',
-                        'data' => $expenses,
+                        'data' => $datas,
                         'backgroundColor' => $backgroundColor,
                         'hoverOffset' => 4
                     ],
